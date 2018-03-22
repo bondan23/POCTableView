@@ -21,6 +21,7 @@ class ViewController: UIViewController {
         let scheduler = SerialDispatchQueueScheduler(qos: .default)
         let subscription = Observable<Int>.interval(1, scheduler: scheduler)
         tableView.estimatedRowHeight = 100
+        tableView.transform = CGAffineTransform(scaleX: 1, y: -1)
         
         subscription
             .subscribe(onNext:{ tick in
@@ -35,21 +36,23 @@ class ViewController: UIViewController {
     
     private func appendText(index: Int){
         if(index % 2 == 0){
-            for i in 1...60 {
-                if(i % 2 == 0){
-                    self.arrOfString.append("Lorem ipsum dolor sit amet \(i)")
-                }else{
-                    self.arrOfString.append("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ornare purus diam, quis pellentesque massa fringilla nec. \(i)")
-                }
-            }
+            self.arrOfString.insert("Lorem ipsum dolor sit amet \(index)", at: 0)
+//            for i in 1...60 {
+//                if(i % 2 == 0){
+//                    self.arrOfString.insert("Lorem ipsum dolor sit amet \(i)", at: 0)
+//                }else{
+//                    self.arrOfString.insert("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ornare purus diam, quis pellentesque massa fringilla nec. \(i)", at: 0)
+//                }
+//            }
         }else{
-            for i in 1...60 {
-                if(i % 2 == 0){
-                    self.arrOfString.append("Test \(i)")
-                }else{
-                    self.arrOfString.append("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ornare purus diam, quis pellentesque massa fringilla nec. Suspendisse sapien est, dignissim sed nisl aliquam, euismod facilisis dui. Vivamus in finibus magna, quis eleifend augue. Vivamus est ipsum, pharetra eu fringilla id.  \(index)")
-                }
-            }
+             self.arrOfString.insert("Test \(index)", at: 0)
+//            for i in 1...60 {
+//                if(i % 2 == 0){
+//                    self.arrOfString.insert("Test \(i)", at: 0)
+//                }else{
+//                    self.arrOfString.insert("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ornare purus diam, quis pellentesque massa fringilla nec. Suspendisse sapien est, dignissim sed nisl aliquam, euismod facilisis dui. Vivamus in finibus magna, quis eleifend augue. Vivamus est ipsum, pharetra eu fringilla id.  \(index)", at: 0)
+//                }
+//            }
         }
     }
 
@@ -78,6 +81,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         // This is to check , when table view is reload data, whether all the datasource is counted or only counted on the viewport
         debugPrint(indexPath.row)
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
         cell.textLabel?.text = arrOfString[indexPath.row]
         cell.textLabel?.sizeToFit()
         cell.textLabel?.numberOfLines = 0
